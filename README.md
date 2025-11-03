@@ -113,11 +113,53 @@ MongoDB Atlas connection is pre-configured. The connection string is in `server/
 - Backend runs on port 5000
 - JWT tokens expire after 7 days
 - Passwords must be at least 6 characters
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+---
+
+## 🚀 Production Deployment
+
+### Environment Variables
+
+**Frontend (.env.local in root):**
+```env
+VITE_API_URL=https://your-backend-url.com
+```
+
+**Backend (server/.env):**
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://haufe:Cl0fb2RqQOz1qfhf@cluster0.nredtp0.mongodb.net/testdb?retryWrites=true&w=majority&appName=Cluster0
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+FRONTEND_URL=https://your-frontend-url.com
+```
+
+### Deploy Backend (Railway)
+1. Go to [railway.app](https://railway.app)
+2. Connect GitHub repo
+3. Set root directory: `server`
+4. Add env vars: MONGODB_URI, JWT_SECRET, FRONTEND_URL
+5. Deploy
+
+### Deploy Frontend (Vercel)
+1. Go to [vercel.com](https://vercel.com)
+2. Import GitHub repo
+3. Add env var: VITE_API_URL (your Railway URL)
+4. Deploy
+
+### Security
+⚠️ Change JWT_SECRET:
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+⚠️ MongoDB Atlas: Allow access from 0.0.0.0/0 in Network Access
+
+---
 
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
