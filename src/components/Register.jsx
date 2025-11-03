@@ -2,9 +2,6 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
 
-// API URL - uses environment variable in production, localhost in development
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
 const Register = ({ onRegisterSuccess }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -43,7 +40,7 @@ const Register = ({ onRegisterSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/register`, {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

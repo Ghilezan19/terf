@@ -116,43 +116,75 @@ MongoDB Atlas connection is pre-configured. The connection string is in `server/
 
 ---
 
-## 🚀 Production Deployment
+## 🚀 Production Deployment on Vercel
 
-### Environment Variables
+This project is configured to deploy entirely on Vercel using serverless functions.
 
-**Frontend (.env.local in root):**
-```env
-VITE_API_URL=https://your-backend-url.com
-```
+### Step 1: Prepare MongoDB Atlas
 
-**Backend (server/.env):**
-```env
-PORT=5000
-MONGODB_URI=mongodb+srv://haufe:Cl0fb2RqQOz1qfhf@cluster0.nredtp0.mongodb.net/testdb?retryWrites=true&w=majority&appName=Cluster0
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-FRONTEND_URL=https://your-frontend-url.com
-```
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Navigate to **Network Access**
+3. Click **"Add IP Address"**
+4. Select **"Allow Access from Anywhere"** (0.0.0.0/0)
+5. Save changes
 
-### Deploy Backend (Railway)
-1. Go to [railway.app](https://railway.app)
-2. Connect GitHub repo
-3. Set root directory: `server`
-4. Add env vars: MONGODB_URI, JWT_SECRET, FRONTEND_URL
-5. Deploy
+### Step 2: Deploy to Vercel
 
-### Deploy Frontend (Vercel)
-1. Go to [vercel.com](https://vercel.com)
-2. Import GitHub repo
-3. Add env var: VITE_API_URL (your Railway URL)
-4. Deploy
+1. **Go to [vercel.com](https://vercel.com)**
+2. **Click "Import Project"**
+3. **Connect your GitHub repository**: `https://github.com/Ghilezan19/terf`
+4. **Click "Import"**
 
-### Security
-⚠️ Change JWT_SECRET:
+### Step 3: Configure Environment Variables
+
+In Vercel dashboard, go to **Settings → Environment Variables** and add:
+
+**Required Variables:**
+
+| Name | Value |
+|------|-------|
+| `MONGODB_URI` | `mongodb+srv://haufe:Cl0fb2RqQOz1qfhf@cluster0.nredtp0.mongodb.net/testdb?retryWrites=true&w=majority&appName=Cluster0` |
+| `JWT_SECRET` | Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+
+### Step 4: Deploy
+
+Click **"Deploy"** and wait for build to complete (2-3 minutes).
+
+Your site will be live at: `https://your-project.vercel.app`
+
+### How It Works
+
+- **Frontend**: React app served from `/dist` folder
+- **Backend API**: Serverless functions in `/api/auth/` folder
+  - `/api/auth/login` - Login endpoint
+  - `/api/auth/register` - Register endpoint
+- **Database**: MongoDB Atlas (cloud)
+
+### Testing Your Deployment
+
+1. Visit your Vercel URL
+2. Click **Register** and create an account
+3. Login with your credentials
+4. Access your dashboard
+
+### Security Notes
+
+⚠️ **IMPORTANT**: Change `JWT_SECRET` before deploying!
+
+Generate a secure secret:
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-⚠️ MongoDB Atlas: Allow access from 0.0.0.0/0 in Network Access
+### Troubleshooting
+
+**"Network Error":**
+- Check MongoDB Atlas allows 0.0.0.0/0 in Network Access
+- Verify `MONGODB_URI` is set correctly in Vercel
+
+**"500 Internal Server Error":**
+- Check Vercel function logs in dashboard
+- Verify environment variables are set
 
 ---
 

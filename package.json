@@ -13,7 +13,10 @@
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5"
